@@ -1,0 +1,97 @@
+{% extends 'app/base.html' %}
+{% block body %}
+<div class="bg-gray-100 py-10">
+    <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+      <div class="flex flex-col lg:flex-row items-center justify-center lg:justify-start">
+        <!-- Preview Image Section -->
+        <div class="lg:w-1/2 flex justify-center items-center shadow-sm p-4">
+
+            {% if product.preview_image %}
+                <img class="w-full h-auto object-cover rounded-lg" src="{{ product.preview_image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <img class="w-full h-auto object-cover rounded-lg" src="https://www.aaronfaber.com/wp-content/uploads/2017/03/product-placeholder-wp.jpg" alt="{{ product.name }}">
+            {% endif %}
+            
+        </div>
+        
+    
+        <!-- Product Details Section -->
+        <div class="lg:w-1/2 p-8">
+            <div class="text-4xl mb-4 font-bold text-gray-800">{{ product.name }}</div>
+            <div class="mb-6 text-gray-600">{{ product.description }}</div>
+            <div class="mb-6 text-green-700 font-bold text-2xl">${{ product.price | floatformat:"0"  }}</div>
+            <button id="checkout-button" class="bg-gradient-to-r from-indigo-400 to-gray-500 hover:from-indigo-500 hover:to-indigo-600 text-white px-6 py-3 rounded-full shadow-md transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+              Purchase
+          </button>
+            <div id="myemail" class="text-gray-500" hidden>{{request.user.email}}</div>
+
+        </div>
+    </div>
+
+        <!-- Mockup Image Section -->
+        {% if product.mockup_image %}
+            <div class="mt-10 px-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Background Example Below</h3>
+                <img class="w-full h-auto object-cover rounded-lg" src="{{ product.mockup_image.url }}" alt="Mockup of {{ product.name }}">
+            </div>
+        {% endif %}
+        <!-- Preview Image Section -->
+
+
+
+
+        <!-- Legal Information Section -->
+<!-- Legal Information Section -->
+<div class="mt-64 mb -25 px-8">
+  <h3 class="text-2xl font-bold text-gray-800 mb-4">Refunds and Legal Information</h3>
+  <p class="text-gray-600">
+      Please note that all sales are final. Once you purchase the wallpaper, refunds will not be issued unless there is a technical issue with the product. By purchasing this wallpaper, you agree to standard license usage of propduct</a>.
+      <br>
+      Additionally, you will be able to download your purchased 4k 3840x2160 .png Background wallpapers from your <a class="text-green-500" href="{% url 'purchases' %}">Backgrounds page</a> in your account at any time!
+  </p>
+</div>
+    </div>
+</div>
+
+
+
+
+
+
+<script src="https://js.stripe.com/v3/"></script>
+<script type="text/javascript">
+  var stripe = Stripe("{{ stripe_publishable_key }}");
+  var checkoutButton = document.getElementById("checkout-button");
+  checkoutButton.addEventListener("click", function () {
+    console.log("Button clicked");
+    var email = document.getElementById("myemail").innerText;
+
+    if (email.length == 0) {
+      alert("Please login with your email address to make a secure purchase to add background to your account!");
+      return;
+    }
+
+    fetch("{% url 'api_checkout_session' id=product.id %}", {
+      method: 'POST',
+      body: JSON.stringify(
+        { email: email }
+        )
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (session) {
+        return stripe.redirectToCheckout({ sessionId: session.sessionId });
+      })
+      .then(function (result) {
+        if (result.error) {
+          alert(result.error.message);
+        }
+      })
+      .catch(function (error) {
+        console.error("Error:", error);
+      });
+  });
+</script>
+
+{% endblock %}

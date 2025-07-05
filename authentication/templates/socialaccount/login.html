@@ -1,0 +1,50 @@
+{% extends 'app/base.html' %}
+{% block body %}
+{% load i18n %}
+{% load allauth account %}
+{% load socialaccount %}
+{% load static %}
+{% block content %}
+
+    {% if process == "connect" %}
+        <div class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-md w-full space-y-8 bg-white p-10 rounded-lg shadow-md">
+                <h1 class="text-3xl font-extrabold text-gray-900 text-center">
+                    {% blocktrans with provider.name as provider %}Connect {{ provider }}{% endblocktrans %}
+                </h1>
+                <p class="text-gray-600 text-center">
+                    {% blocktrans with provider.name as provider %}You are about to connect a new third-party account from {{ provider }}.{% endblocktrans %}
+                </p>
+                {% element form method="post" no_visible_fields=True %}
+                    {% slot actions %}
+                        {% csrf_token %}
+                        <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                            {% trans "Continue" %}
+                        </button>
+                    {% endslot %}
+                {% endelement %}
+            </div>
+        </div>
+    {% else %}
+        <div class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-md w-full space-y-8 bg-white p-10 rounded-lg shadow-md">
+                <h1 class="text-3xl font-extrabold text-gray-900 text-center">
+                    {% blocktrans with provider.name as provider %}Sign In Via {{ provider }}{% endblocktrans %}
+                </h1>
+                <p class="text-gray-600 text-center">
+                    {% blocktrans with provider.name as provider %}You are about to sign in using an account from {{ provider }}.{% endblocktrans %}
+                </p>
+                {% element form method="post" no_visible_fields=True %}
+                    {% slot actions %}
+                        {% csrf_token %}
+                        <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                            {% trans "Continue" %}
+                        </button>
+                    {% endslot %}
+                {% endelement %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock content %}
+{% endblock %}
+

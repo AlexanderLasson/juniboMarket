@@ -1,0 +1,19 @@
+{% extends 'app/base.html' %}
+{% block body %}
+{% load i18n %}
+{% load allauth account %}
+{% load socialaccount %}
+
+{% block content %}
+    <div class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8 bg-white p-10 rounded-lg shadow-md">
+            <h1 class="text-3xl font-extrabold text-gray-900 text-center">
+                {% trans "Login Cancelled" %}
+            </h1>
+            <p class="text-gray-600 text-center">
+                {% blocktrans %}You decided to cancel logging in to our site using one of your existing accounts. If this was a mistake, please proceed to login{% endblocktrans %}
+            </p>
+        </div>
+    </div>
+{% endblock content %}
+{% endblock %}

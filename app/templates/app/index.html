@@ -1,0 +1,42 @@
+{% extends 'app/base.html' %}
+{% load static tailwind_tags %}
+{% tailwind_css %}
+{% block body %}
+<div class="bg-white">
+  <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+    <h2 class="text-3xl font-bold tracking-tight text-gray-900 mb-8">Background Shop             {% if user.is_authenticated %}
+      <span class="ml-6 text-sm font-medium text-gray-500 ">{{ user.email }}</span>
+      {% else %}
+      <span class="ml-6 text-sm font-medium text-gray-500 ">Guest</span>
+      {% endif %}</h2>
+    
+
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        
+      {% for product in products %}
+      {% if product.current == True %}
+      <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out transform hover:scale-105 flex flex-col">
+        <div class="aspect-w-16 aspect-h-9">
+          <img class="object-cover w-full h-full" src="{{ product.preview_image.url }}" alt="{{ product.name }}">
+        </div>
+        <div class="p-6 flex-grow flex flex-col justify-between">
+          <div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ product.name }}</h3>
+            <p class="text-sm text-gray-600 mb-4">{{ product.description }}</p>
+          </div>
+          <div class="flex justify-between items-center mt-6">
+            <p class="text-lg font-semibold text-gray-500">${{ product.price | floatformat:"0" }}</p>
+            {% if product.id in purchased_products %}
+              <p class="text-sm font-semibold text-green-600">Purchased</p>
+            {% else %}
+              <a class="inline-block bg-indigo-600 hover:bg-green-600 text-white px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out" href="{% url 'detail' product.id %}">View Details</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'app/base.html' %} 
+
+{% block body %}
+<div class="flex justify-between">
+    <div class="ml-10 mt-10 font-bold text-xl">Sales Stats</div>
+    <div class="mr-20 mt-10"></div>
+</div>
+
+<div class="shadow-lg p-10 m-5">
+    <div class="text-5xl font-bold">$ {{ total_sales.amount__sum }}</div>
+    <div class="mt-10">Your Lifetime Revenue</div>
+</div>
+
+<div class="w-1/2 shadow-lg m-10">
+    <div class="ml-10 mt-10 font-bold text-xl">Product Sales</div>
+    <div class="flex m-10 mt-5 mb-5">
+        <div class="w-1/2">Product Name</div>
+        <div class="w-1/2">Total Sales</div>
+    </div>
+    {% for product_sales_sum in product_sales_sums %}
+    <div class="flex m-10 mt-5 mb-5">
+        <div class="w-1/2 product-name">{{ product_sales_sum.product__name }}</div>
+        <div class="w-1/2 product-sum font-bold text-green-500">${{ product_sales_sum.sum }}</div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    const product_names = document.getElementsByClassName('product-name');
+    const name_values = [];
+    for(let i = 0; i < product_names.length; i++){
+        single_name = product_names[i].innerText;
+        name_values.push(single_name);
+    }
+    
+    const product_sums = document.getElementsByClassName('product-sum');
+    const product_sum_values = [];
+    for(let i = 0; i < product_sums.length; i++){
+        single_sum = product_sums[i].innerText;
+        product_sum_values.push(single_sum);
+    }
+
+    const ctx1 = document.getElementById('myChart1');
+    new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: name_values,
+            datasets: [{
+                label: 'Product sales sum',
+                data: product_sum_values,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

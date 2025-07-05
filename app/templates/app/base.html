@@ -1,0 +1,47 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Junibo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore a fusion of minimalism with creativity. Each wallpaper is crafted to elevate its respective devices. A simple safe site for buying a changing variety of wallpapers">
+    <meta name="keywords" content="background, wallpaper, custom, 4k, shop, rotating, no adds">
+    <meta name="author" content="Alex">
+    <link rel="icon" type="image/png" href="images/Junibo.ico">
+    {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
+    {% tailwind_css %}
+</head>
+
+<body>
+    <nav class="shadow-lg">
+        <div class="flex justify-between items-center mx-auto px-4 py-2.5">
+            <div class="flex items-center">
+                <a href="{% url 'index' %}" class="flex items-center">
+                    <img class="h-9 mr-3" src="https://cdn3.iconfinder.com/data/icons/digital-marketing-27/64/Strategy-computer-chess-tactic-technology-512.png" alt="">
+                    <span class="self-center text-3xl font-semibold">Junibo</span>
+                </a>
+
+            </div>
+
+
+            <div>
+                {% if user.is_authenticated %}
+                <a href="{% url 'index' %}" class="mr-6 text-sm font-medium text-gray-500">Shop</a>
+                <a href="{% url 'purchases' %}" class="mr-6 text-sm font-medium text-gray-500">Purchases</a>
+                <a href="{% url 'account_logout' %}" class="mr-6 text-sm font-medium text-gray-500">Logout</a>
+                {% else %}
+                <a href="{% url 'index' %}" class="mr-6 text-sm font-medium text-gray-500">Shop</a>
+                <a href="{% url 'account_login' %}" class="mr-6 text-sm font-medium text-gray-500">Login</a>
+                <a href="{% url 'account_signup' %}" class="mr-6 text-sm font-medium text-gray-500">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    {% block body %}
+    {% endblock %}
+</body>
+
+</html>

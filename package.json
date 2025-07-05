@@ -1,0 +1,16 @@
+{
+  "name": "digitalm",
+  "version": "1.0.0",
+  "description": "Django project with Tailwind CSS",
+  "main": "index.js",
+  "scripts": {
+    "build-css": "npx tailwindcss build theme/static_src/input.css -o theme/static/dist/styles.css"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.0.0",
+    "autoprefixer": "^10.0.0",
+    "postcss": "^8.0.0"
+  }
+}

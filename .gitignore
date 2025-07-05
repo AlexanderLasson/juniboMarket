@@ -1,0 +1,60 @@
+venv
+info.diff
+mockups
+images
+DS.dd
+uploads
+previews
+JUNIBO_prototype
+node_modules
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.env
+*.venv
+*.log
+*.pot
+*.mo
+*.db
+*.sqlite3
+*.pyc
+*.migrations/
+*.cover
+*.DS_Store
+
+# Django
+.env
+.env.*
+local_settings.py
+db.sqlite3
+media/
+staticfiles/
+*.sqlite3
+
+#Tailwind
+tailwindcss/
+theme/static_src/
+theme/node_modules/
+theme/package-lock.json
+theme/dist/
+
+# VSCode
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Pytest
+.pytest_cache/
+coverage/
+
+# Docker
+*.pid
+*.sock
+*.tar
+docker-compose.override.yml
